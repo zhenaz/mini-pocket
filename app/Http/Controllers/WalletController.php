@@ -10,6 +10,21 @@ use Session;
 
 class WalletController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function create(Request $request) {
         Validator::make($request->all(), [
             'wallet' => ['required', 'integer', 'max:255'],

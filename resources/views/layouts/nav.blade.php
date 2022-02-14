@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Mini Pocket</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{url('/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -33,9 +33,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-dollar-sign"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Mini Pocket</div>
             </a>
 
             <!-- Divider -->
@@ -47,6 +47,15 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+
+            @if(Auth::user()->role_id == 1)
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ Request::is('admin/home') ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('admin.home')}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard Admin</span></a>
+            </li>
+            @endif
 
             {{-- <!-- Divider -->
             <hr class="sidebar-divider">
@@ -120,6 +129,15 @@
                 </div>
             </li> --}}
 
+            @if(Auth::user()->role_id == '1')
+            <!-- Nav Item - Charts -->
+            <li class="nav-item {{ Request::is('user') ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('user')}}">
+                    <i class="fas fa-user fa-sm fa-fw"></i>
+                    <span>User</span></a>
+            </li>
+            @endif
+
             <!-- Nav Item - Charts -->
             <li class="nav-item {{ Request::is('transaction') ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('transaction')}}">
@@ -128,11 +146,11 @@
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
+                    <i class="fas fa-list fa-fw"></i>
+                    <span>Logs</span></a>
+            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -188,44 +206,58 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{route('profile')}}">
+                        @guest
+                            <li class="nav-item no-arrow">
+                                <a href="#" class="nav-link">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item no-arrow">
+                                <a href="#" class="nav-link">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Register</span>
+                                </a>
+                            </li>
+                        @else
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
                                 </a>
-                                {{-- <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a> --}}
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        {{ __('Logout') }}
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="{{route('profile')}}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
                                     </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                                {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a> --}}
-                            </div>
-                        </li>
+                                    {{-- <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Settings
+                                    </a> --}}
+                                    {{-- <a class="dropdown-item" href="#">
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </a> --}}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('Logout') }}
+                                        </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                    {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a> --}}
+                                </div>
+                            </li>
+                        @endguest
 
                     </ul>
 
@@ -247,7 +279,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Benazheer Salsabila 2022</span>
                     </div>
                 </div>
             </footer>

@@ -3,7 +3,7 @@
 @section('content')
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <h1 class="h3 mb-0 text-gray-800">Dashboard Admin</h1>
 </div>
 
 @if(Session::has('message'))
@@ -15,9 +15,144 @@
 </div>
 @endif
 
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            User</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{count($users)}}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-fw fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Total Balance</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{$wallets}}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-fw fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Content Column -->
+    <div class="col-lg-6 mb-4">
+
+        <!-- User -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">User</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>E-mail</th>
+                                <th>Address</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($users as $user)
+                                <tr>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->role_name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->address}}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4">No data yet!</td>
+                                </tr>
+                            @endforelse
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p><center><a href="{{route('user')}}" type="button" class="btn btn-primary">CRUD User</a></center></p>
+        </div>
+
+    </div>
+
+    <div class="col-lg-6 mb-4">
+
+        <!-- Transaction -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Transaction</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Nominal</th>
+                                <th>End Balance</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($trans as $transac)
+                                <tr>
+                                    <td>{{$transac->name}}</td>
+                                    <td>{{$transac->created_at}}</td>
+                                    <td>{{$transac->type}}</td>
+                                    <td>{{$transac->transaksi}}</td>
+                                    <td>{{$transac->total}}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5">No data yet!</td>
+                                </tr>
+                            @endforelse
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 {{-- @php dd($wallet['wallet']) @endphp --}}
 
-@if($wallet['wallet'] === null)
+{{-- @if($wallet['wallet'] === null)
 
     <form action="{{route('wallet.create')}}" method="POST">
         @csrf
@@ -58,9 +193,9 @@
     </div>
 
 </div>
-@endif
+@endif --}}
 
-<div class="row mb-4">
+{{-- <div class="row mb-4">
         <a href="#" class="btn btn-success btn-icon-split ml-3" data-toggle="modal" data-target="#depositModal">
             <span class="icon text-white-50">
                 <i class="fas fa-sack-dollar"></i>
@@ -74,11 +209,11 @@
             </span>
             <span class="text">Withdraw</span>
         </a>
-</div>
+</div> --}}
 
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+{{-- <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Transaction table</h6>
     </div>
@@ -117,7 +252,7 @@
         </div>
         <p><center><a href="{{route('transaction')}}" type="button" class="btn btn-primary">See more transaction...</a></center></p>
     </div>
-</div>
+</div> --}}
 
 <!-- Deposit Modal-->
 <div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

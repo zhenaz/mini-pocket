@@ -57,9 +57,9 @@
                     @empty
                     <tr>
                         @if($wallet['wallet'] === null)
-                        <td colspan="4"><center>You don't have any wallet yet, <strong>make a wallet now!</strong></center></td>
+                        <td colspan="5"><center>You don't have any wallet yet, <strong>make a wallet now!</strong></center></td>
                         @else
-                        <td colspan="4"><center>You don't have any transaction yet</center></td>
+                        <td colspan="5"><center>You don't have any transaction yet</center></td>
                         @endif
                     </tr>
                     @endforelse

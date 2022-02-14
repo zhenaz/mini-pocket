@@ -11,10 +11,27 @@ use Session;
 
 class TransactionController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function index() {
+        $id = Auth::user()->id;
         $lastdata = Transaction::latest()->first();
+        $wallet = Wallet::where('user_id',$id)->first();
         $transaction = Transaction::where('user_id', Auth::user()->id)->latest()->get();
-        return view('transaction.transaction', ['trans' => $transaction,'lastdata' => $lastdata]);
+        return view('transaction.transaction', ['trans' => $transaction,'lastdata' => $lastdata,'wallet' => $wallet]);
     }
 
     public function edit($id) {
